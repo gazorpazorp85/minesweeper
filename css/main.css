@@ -69,6 +69,6 @@ table, th, td {
 
 button {
     background-color: transparent;
-    border-block-color: transparent;
     color: gold;
+    border: none;
 }
