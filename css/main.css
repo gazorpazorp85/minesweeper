@@ -2,6 +2,7 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-image: url("../img/background.jpg");
     background-attachment: fixed;
+    text-align: center;
 }
 table {
 
@@ -34,9 +35,9 @@ table, th, td {
     color: rgb(0, 153, 255);
 }
 
-.menu, .timer, .submenu {
-    height: 20%;
-    width: 20%;
+.menu, .timer, .submenu, .best {
+    height: 30%;
+    width: 30%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -59,16 +60,16 @@ table, th, td {
     background-color: red;
 }
 
-.footer {
-    height: 50px;
-    width: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
 button {
     background-color: transparent;
     color: gold;
     border: none;
+    font-size: medium;
+}
+
+.popup, .popup2 {
+    background-color: gold;
+    text-align: center;
+    position: relative;
+    display: none;
 }

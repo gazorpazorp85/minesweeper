@@ -21,19 +21,26 @@
             <button class="easy" onclick="selectLevel(this)">Easy</button><br>
             <button class="medium" onclick="selectLevel(this)">Medium</button><br>
             <button class="hard" onclick="selectLevel(this)">Hard</button><br>
-            <button class="restart" onclick="restartGame()">Restart</button>
+            <button class="restart" onclick="restartGame()"></button>
         </span>
     </div>
     <br>
     <div class="timer">
-        <span class="subMenu">Time:</span><br>
-        <span class="clock">00:00</span>
+        <span class="subMenu">Time: </span><span class="clock">00:00</span>
+        <span class="life"></span><br>
+        <button class="hints" onclick="isHintOn()">button</button><br>
+        <span class="best"></span>
     </div>
+    <br><br>
+    <div class="popup"></div>
+    <div class="popup2"></div>
     <br><br>
     <table>
         <tbody class="board-container"></tbody>
     </table>
+    <script src="js/board.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/neighbors.js"></script>
     <script src="js/main.js"></script>
 </body>
 

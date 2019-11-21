@@ -1,5 +1,13 @@
 'use strict'
 
+var gBest = localStorage.getItem('btime');
+var gStartingTime = 0;
+var gMins = 0;
+var gSecs = 0;
+var gInterval;
+var gCurrentTime = 0;
+var gBestTime = 0;
+
 // creates a random number (includes min and max)
 
 function createRandomNum(min, max) {
@@ -8,31 +16,33 @@ function createRandomNum(min, max) {
 
 // timer function
 
-var mins = 0;
-var secs = 0;
-var mili = 0;
-var gInterval;
-
 function runTimer() {
 
-/*    if (mili >= 999) {
-        secs++;
-        mili = 0;
-    } else {
-        mili+= 9;
-    }
-*/
-secs++;
-    if (secs == 60) {
-        mins++;
-        secs = 0;
+    gSecs++;
+    gCurrentTime = gSecs;
+    if (gSecs == 60) {
+        gMins++;
+        gSecs = 0;
     }
     var showClock = document.querySelector('.clock');
-    if (secs < 10) {
-        showClock.innerHTML = (`0${mins}:0${secs}`);/*.${mili}`);*/
-    } else if (mins < 10) {
-        showClock.innerHTML = (`0${mins}:${secs}`);/*.${mili}`);*/
+    if (gSecs < 10) {
+        showClock.innerHTML = (`0${gMins}:0${gSecs}`);
+    } else if (gMins < 10) {
+        showClock.innerHTML = (`0${gMins}:${gSecs}`);
     } else {
-        showClock.innerHTML = (`${mins}:${secs}`);/*.${mili}`);*/
+        showClock.innerHTML = (`${gMins}:${gSecs}`);
     }
+}
+
+function startTimer() {
+    gInterval = setInterval(runTimer, 1000);
+}
+
+function stopTimer() {
+    clearInterval(gInterval);
+}
+
+function resetTimer() {
+    gMins = 0;
+    gSecs = 0;
 }
