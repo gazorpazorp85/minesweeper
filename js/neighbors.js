@@ -25,13 +25,25 @@ function getNeighborsFirstMove(posI, posJ) {
         for (var j = posJ - 1; j <= posJ + 1; j++) {
             if (j < 0 || j >= gBoard[0].length) continue;
             var currCell = gBoard[i][j];
-            if (!currCell.isMine) {
+            if (!currCell.isMine && !currCell.isShown) {
                 currCell.isShown = true;
                 checkGameOver(currCell);
                 showCells(i, j);
-            }
+                if (currCell.minesAroundCount === 0) checkLengths(i, j);
+            } else continue;
         }
     }
+}
+
+function checkLengths(i, j) {
+
+    if (i < 0 && (j >= 0 && j <= gBoard.length)) return getNeighborsFirstMove(i + 1, j);
+    if (i >= gBoard.length && (j >= 0 && j <= gBoard.length)) return getNeighborsFirstMove(i - 1, j);
+    if (j < 0 && (i >= 0 && i <= gBoard.length)) return getNeighborsFirstMove(i, j + 1);
+    if (j >= gBoard.length && (i >= 0 && i <= gBoard.length)) return getNeighborsFirstMove(i, j - 1);
+    if (i < 0 && j < 0) return getNeighborsFirstMove(i + 1, j + 1);
+    if (i >= gBoard.length && j >= gBoard.length) return getNeighborsFirstMove(i - 1, j - 1);
+    if ((i >= 0 && i <= gBoard.length) && (j >= 0 && j <= gBoard.length)) return getNeighborsFirstMove(i, j);
 }
 
 function getNeighborsEmptyCellClicked(posI, posJ) {
@@ -50,7 +62,6 @@ function getNeighborsEmptyCellClicked(posI, posJ) {
         }
     }
 }
-
 
 function setRandomMines(posI, posJ, counter) {
     for (var i = posI - 1; i <= posI + 1; i++) {
@@ -80,31 +91,24 @@ function setMinesNegsCount(board) {
 
 function getNeighborsHint(posI, posJ) {
 
+    var clonedBoard = cloneBoard();
+    renderClonedBoard(clonedBoard);
+
     for (var i = posI - 1; i <= posI + 1; i++) {
-        if (i < 0 || i >= gBoard.length) continue;
+        if (i < 0 || i >= clonedBoard.length) continue;
         for (var j = posJ - 1; j <= posJ + 1; j++) {
-            if (j < 0 || j >= gBoard[0].length) continue;
-            var currCell = gBoard[i][j];
+            if (j < 0 || j >= clonedBoard[0].length) continue;
+            var currCell = clonedBoard[i][j];
             if (currCell.isShown) continue;
             if (!currCell.isShown) {
                 currCell.isShown = true;
-                showCells(i, j);
+                showClonedCells(i, j);
             }
         }
     }
-    
     setTimeout(function () {
-        for (var i = posI - 1; i <= posI + 1; i++) {
-            if (i < 0 || i >= gBoard.length) continue;
-            for (var j = posJ - 1; j <= posJ + 1; j++) {
-                if (j < 0 || j >= gBoard[0].length) continue;
-                var currCell = gBoard[i][j];
-                currCell.isShown = false;
-                hideCells(i, j);
-            }
-        }
+        renderBoard(gBoard);
     }, 1000);
-
     gHintOn = false;
     var elPopup = document.querySelector('.popup');
     elPopup.style.display = 'none';

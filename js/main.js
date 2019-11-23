@@ -9,21 +9,30 @@ var gInterval;
 var gFirstClick = 0;
 var gSmiley = '&#128522;';
 var gLives = '&#127829;';
+var gLifeCount = 3;
+var gMarkedIcon = '🚩';
 var gHintIcon = '💡';
 var gHintOn = false;
 var gHintCounter = 3;
-var gLifeCount = 3;
+var gSafeClickIcon = '✔';
+var gIsSafeClickModeOn = false;
+var gSafeClickModeCounter = 3;
 
 function init() {
 
     gBoard = createBoard();
     renderBoard(gBoard);
+    var elClock = document.querySelector('.clock');
+    elClock.innerHTML = (`Time: 00:00`);
+    showBestTime(gLevel.size);
     var elButton = document.querySelector('.restart');
     elButton.innerHTML = `${gSmiley}`;
     var elSpan = document.querySelector('.life');
     elSpan.innerHTML = `Lives: ${gLives}${gLives}${gLives}`;
     var elButtonHints = document.querySelector('.hints');
     elButtonHints.innerHTML = `Hints: ${gHintIcon}${gHintIcon}${gHintIcon}`;
+    var elButtonSafeClick = document.querySelector('.safe');
+    elButtonSafeClick.innerHTML = `Safe Click: ${gSafeClickIcon}${gSafeClickIcon}${gSafeClickIcon}`;
 }
 
 function selectLevel(elButton) {
@@ -33,14 +42,17 @@ function selectLevel(elButton) {
         case ('easy'):
             gLevel.size = 4;
             gLevel.mines = 2;
+            showBestTime();
             break;
         case ('medium'):
             gLevel.size = 8;
             gLevel.mines = 12;
+            showBestTime();
             break;
         case ('hard'):
             gLevel.size = 12;
             gLevel.mines = 30;
+            showBestTime();
     }
 
     gBoard = createBoard();
@@ -48,24 +60,19 @@ function selectLevel(elButton) {
     return gLevel;
 }
 
-function firstMove(i, j) {
-
-    getNeighborsFirstMove(i, j);
-    startTimer();
-    gFirstClick++;
-}
-
 function checkGameOver(currCell, elCell) {
+
+    if (gHintOn) return;
 
     if (currCell.isMine && !currCell.isMarked) {
         lostLife(currCell, elCell);
         return;
     }
     if (currCell.isShown) gGame.shownCount++;
-    if (currCell.isMarked && currCell.isMine) gGame.markedCount++;
     if ((gGame.markedCount + gGame.shownCount) === (Math.pow(gBoard.length, 2))) {
 
         stopTimer();
+        checkBestTime(gLevel.size);
         showPopUp();
 
     } else return;
@@ -123,17 +130,19 @@ function showPopUp() {
     } else {
         elPopup.innerText = 'Congratulations! You Have Won!';
         elPopup.style.display = 'inline-block';
+        gGame.isOver = true;
         gSmiley = '&#128526;'
         elButton.innerHTML = `${gSmiley}`;
     }
 }
 
 function isHintOn() {
+    if (gGame.isOver) return;
     if (gHintCounter > 0) {
+        gHintOn = true;
         var elPopup = document.querySelector('.popup');
         elPopup.innerText = 'You are in hint mode';
         elPopup.style.display = 'inline-block';
-        gHintOn = true;
     }
 }
 
@@ -144,6 +153,43 @@ function hintButtonDisplay() {
     if (gHintCounter === 0) elButtonHints.innerHTML = `Hints: No hints left.`;
 }
 
+function safeClickMode() {
+    if (!gGame.isOn || gGame.isOver) return;
+    if (gSafeClickModeCounter > 0) {
+
+        gIsSafeClickModeOn = true;
+        var max = gBoard[0].length - 1;
+
+        while (gIsSafeClickModeOn) {
+            var i = createRandomNum(0, max);
+            var j = createRandomNum(0, max);
+            var currCell = gBoard[i][j];
+            if (currCell.isMine && !currCell.isShown && !currCell.isMarked) {
+                var elCell = document.querySelector(`.cell-${i}-${j}`);
+                elCell.classList.remove('hidden');
+                elCell.classList.add('marked');
+                elCell.innerHTML = `${gMarkedIcon}`;
+                setTimeout(function () {
+                    elCell.classList.remove('marked');
+                    elCell.classList.add('hidden');
+                    elCell.innerHTML = `${mineImg}`;
+                }, 3000);
+                gIsSafeClickModeOn = false;
+            } else continue;
+        }
+        gSafeClickModeCounter--;
+        safeButtonDisplay();
+    } else return;
+}
+
+function safeButtonDisplay() {
+    var elButtonSafeClick = document.querySelector('.safe');
+    if (gSafeClickModeCounter === 2) elButtonSafeClick.innerHTML = `Safe Click: ${gSafeClickIcon}${gSafeClickIcon}`;
+    if (gSafeClickModeCounter === 1) elButtonSafeClick.innerHTML = `Safe Click: ${gSafeClickIcon}`;
+    if (gSafeClickModeCounter === 0) elButtonSafeClick.innerHTML = `Safe Click: No safe clicks left.`;
+}
+
+
 function restartGame() {
 
     stopTimer();
@@ -152,15 +198,18 @@ function restartGame() {
     var elSpan = document.querySelector('.life');
     elSpan.innerText = `Lives: ${gLives}${gLives}${gLives}`;
     gSmiley = '&#128522;'
-    gFirstClick = 0;
     gLifeCount = 3;
     gHintCounter = 3;
+    gSafeClickModeCounter = 3;
+    gFirstClick = 0;
     gGame.shownCount = 0;
     gGame.markedCount = 0;
     gGame.isOn = false;
     gGame.isOver = false;
+    gHintOn = false;
+    gCurrentTime = 0;
     var elClock = document.querySelector('.clock');
-    elClock.innerHTML = (`00:00`);
+    elClock.innerHTML = (`Time: 00:00`);
     resetTimer();
     init();
 }

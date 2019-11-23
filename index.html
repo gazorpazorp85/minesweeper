@@ -26,20 +26,23 @@
     </div>
     <br>
     <div class="timer">
-        <span class="subMenu">Time: </span><span class="clock">00:00</span>
-        <span class="life"></span><br>
-        <button class="hints" onclick="isHintOn()">button</button><br>
-        <span class="best"></span>
+        <span class="clock"></span>
+        <span class="best"></span><br>
+        <button class="hints" onclick="isHintOn()"></button>
+        <button class="safe" onclick="safeClickMode()">safeclick</button><br>
+        <span class="life"></span>
+        
     </div>
     <br><br>
     <div class="popup"></div>
     <div class="popup2"></div>
     <br><br>
     <table>
-        <tbody class="board-container"></tbody>
+        <tbody class="board-container noselect" ></tbody>
     </table>
-    <script src="js/board.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/clonedboard.js"></script>
     <script src="js/neighbors.js"></script>
     <script src="js/main.js"></script>
 </body>

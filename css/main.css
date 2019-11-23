@@ -11,25 +11,39 @@ table {
 }
 
 table, th, td {
-    border: 2px solid grey;
+    border: 2px solid lightslategray;
     margin-left: auto;
     margin-right: auto;  
     table-layout: fixed;
     border-collapse: collapse;
     text-align: center;
-    background-color: limegreen;
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    min-height: 20px;
+    background-color: grey;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
 }
 
 .hidden {
     display: absolute;
     background-color: black;
+    border: 2px solid grey;
+}
+
+.cloned .hidden {
+    display: absolute;
+    background-color: black;
 }
 
 .marked {
+    border: 2px solid lightslategray;
+    display: absolute;
+    background-color: rgb(0, 153, 255);
+    color: rgb(0, 153, 255);
+}
+
+.cloned .marked {
+    border: 2px solid lightslategray;
     display: absolute;
     background-color: rgb(0, 153, 255);
     color: rgb(0, 153, 255);
@@ -72,4 +86,12 @@ button {
     text-align: center;
     position: relative;
     display: none;
+}
+
+.noselect {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
