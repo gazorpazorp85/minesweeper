@@ -68,13 +68,14 @@ function checkGameOver(currCell, elCell) {
         lostLife(currCell, elCell);
         return;
     }
-    if (currCell.isShown) gGame.shownCount++;
-    if ((gGame.markedCount + gGame.shownCount) === (Math.pow(gBoard.length, 2))) {
 
+    if (currCell.isShown) gGame.shownCount++;
+
+    if ((gGame.markedCount + gGame.shownCount) === (Math.pow(gBoard.length, 2))) {
+    
         stopTimer();
         checkBestTime(gLevel.size);
         showPopUp();
-
     } else return;
 }
 
@@ -154,7 +155,9 @@ function hintButtonDisplay() {
 }
 
 function safeClickMode() {
+
     if (!gGame.isOn || gGame.isOver) return;
+
     if (gSafeClickModeCounter > 0) {
 
         gIsSafeClickModeOn = true;
@@ -183,6 +186,7 @@ function safeClickMode() {
 }
 
 function safeButtonDisplay() {
+    
     var elButtonSafeClick = document.querySelector('.safe');
     if (gSafeClickModeCounter === 2) elButtonSafeClick.innerHTML = `Safe Click: ${gSafeClickIcon}${gSafeClickIcon}`;
     if (gSafeClickModeCounter === 1) elButtonSafeClick.innerHTML = `Safe Click: ${gSafeClickIcon}`;

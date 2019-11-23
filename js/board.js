@@ -73,6 +73,7 @@ function cellClicked(elCell, event, i, j) {
         getNeighborsHint(i, j);
         return;
     }
+    
     if (!currCell.isShown) {
         currCell.isShown = true;
         elCell.classList.remove('hidden');

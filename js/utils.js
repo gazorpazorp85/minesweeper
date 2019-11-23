@@ -15,20 +15,13 @@ var gInterval;
 var gStartingTime = 0;
 var gCurrentTime = 0;
 
-
-// creates a random number (includes min and max)
-
 function createRandomNum(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// copy values of objects
-
 function copyValuesObj(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
-
-// timer function
 
 function runTimer() {
     gSecs++;
@@ -71,60 +64,60 @@ function checkBestTime() {
     switch (gLevel.size) {
         case (gLevel.size = 4):
             if (gEasyBest === null) {
-                gEasyBest = gCurrentTime;
-                gEasyBestSecs = gSecs;
-                gEasyBestMins = gMins;
-                localStorage.setItem('easybesttime', gEasyBest);
-                localStorage.setItem('easybestsecs', gEasyBestSecs);
-                localStorage.setItem('easybestmins', gEasyBestMins);
+                setBestTime();
                 showBestTime();
             } else if (gCurrentTime < parseInt(gEasyBest)) {
-                gEasyBest = gCurrentTime;
-                gEasyBestSecs = gSecs;
-                gEasyBestMins = gMins;
-                localStorage.setItem('easybesttime', gEasyBest);
-                localStorage.setItem('easybestsecs', gEasyBestSecs);
-                localStorage.setItem('easybestmins', gEasyBestMins);
+                setBestTime();
                 showBestTime();
+                break;
             }
-            break;
         case (gLevel.size = 8):
             if (gMediumBest === null) {
-                gMediumBest = gCurrentTime;
-                gMediumBestSecs = gSecs;
-                gMediumBestMins = gMins;
-                localStorage.setItem('mediumbesttime', gMediumBest);
-                localStorage.setItem('mediumbestsecs', gMediumBestSecs);
-                localStorage.setItem('mediumbestmins', gMediumBestMins);
+                setBestTime();
                 showBestTime();
             } else if (gCurrentTime < parseInt(gMediumBest)) {
-                gMediumBest = gCurrentTime;
-                gMediumBestSecs = gSecs;
-                gMediumBestMins = gMins;
-                localStorage.setItem('mediumbesttime', gMediumBest);
-                localStorage.setItem('mediumbestsecs', gMediumBestSecs);
-                localStorage.setItem('mediumbestmins', gMediumBestMins);
+                setBestTime();
                 showBestTime();
+                break;
             }
-            break;
         case (gLevel.size = 12):
             if (gHardBest === null) {
-                gHardBest = gCurrentTime;
-                gHardBestSecs = gSecs;
-                gHardBestMins = gMins;
-                localStorage.setItem('hardbesttime', gHardBest);
-                localStorage.setItem('hardbestsecs', gHardBestSecs);
-                localStorage.setItem('hardbestmins', gHardBestMins);
+                setBestTime();
                 showBestTime();
             } else if (gCurrentTime < parseInt(gHardBest)) {
-                gHardBest = gCurrentTime;
-                gHardBestSecs = gSecs;
-                gHardBestMins = gMins;
-                localStorage.setItem('hardbesttime', gHardBest);
-                localStorage.setItem('hardbestsecs', gHardBestSecs);
-                localStorage.setItem('hardbestmins', gHardBestMins);
+                setBestTime();
                 showBestTime();
+                break;
             }
+    }
+}
+
+function setBestTime() {
+
+    switch (gLevel.size) {
+        case (gLevel.size = 4):
+            gEasyBest = gCurrentTime;
+            gEasyBestSecs = gSecs;
+            gEasyBestMins = gMins;
+            localStorage.setItem('easybesttime', gEasyBest);
+            localStorage.setItem('easybestsecs', gEasyBestSecs);
+            localStorage.setItem('easybestmins', gEasyBestMins);
+            break;
+        case (gLevel.size = 8):
+            gMediumBest = gCurrentTime;
+            gMediumBestSecs = gSecs;
+            gMediumBestMins = gMins;
+            localStorage.setItem('mediumbesttime', gMediumBest);
+            localStorage.setItem('mediumbestsecs', gMediumBestSecs);
+            localStorage.setItem('mediumbestmins', gMediumBestMins);
+            break;
+        case (gLevel.size = 12):
+            gHardBest = gCurrentTime;
+            gHardBestSecs = gSecs;
+            gHardBestMins = gMins;
+            localStorage.setItem('hardbesttime', gHardBest);
+            localStorage.setItem('hardbestsecs', gHardBestSecs);
+            localStorage.setItem('hardbestmins', gHardBestMins);
             break;
     }
 }
